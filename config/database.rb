@@ -1,5 +1,3 @@
-db = URI.parse(ENV['DATABASE_URL'] || 'postgres:///postgres/onebitbot_production')
-
 configure :test do
    set :database, {
      adapter: 'postgresql',
@@ -23,6 +21,8 @@ configure :development do
 end
 
 configure :production do
+  db = URI.parse(ENV['DATABASE_URL'] || 'postgres:///postgres/onebitbot_production')
+
   set :database, {
     adapter:  db.scheme == 'postgres' ? 'postgresql' : db.scheme,
     host:     db.host,
