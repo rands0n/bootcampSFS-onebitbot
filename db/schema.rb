@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20180210171234) do
 
   create_table "faq_hashtags", force: :cascade do |t|
     t.integer "faq_id"
-    t.integer "company_id"
+    t.integer "hashtag_id"
   end
 
   create_table "faqs", force: :cascade do |t|
