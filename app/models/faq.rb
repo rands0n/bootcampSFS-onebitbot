@@ -1,3 +1,6 @@
+require 'pg_search'
+include PgSearch
+
 class Faq < ActiveRecord::Base
   validates_presence_of :question, :answer
 
@@ -5,4 +8,6 @@ class Faq < ActiveRecord::Base
   has_many :hashtags, through: :faq_hashtags
 
   belongs_to :company
+
+  pg_search_scope :search, :against => [:question, :answer]
 end
