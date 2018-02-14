@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative './../spec_helper'
 
 describe InterpretService do
   let(:company) { create(:company) }

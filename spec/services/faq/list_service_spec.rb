@@ -1,4 +1,4 @@
-require '../../spec_helper'
+require_relative './../../spec_helper'
 
 describe FaqModule::ListService do
   let(:company) { create :company }
