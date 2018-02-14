@@ -1,39 +1,33 @@
-require_relative './../../spec_helper'
+require_relative './../../spec_helper.rb'
 
 describe FaqModule::RemoveService do
-  let(:company) { create(:company) }
+  before do
+    @company = create(:company)
+  end
 
   describe '#call' do
-    let(:faq) { create(:faq, company: company) }
+    it "With valid ID, remove Faq" do
+      faq = create(:faq, company: @company)
+      @removeService = FaqModule::RemoveService.new({"id" => faq.id})
+      response = @removeService.call()
 
-    context 'with valid ID' do
-      it 'remove the faq' do
-        remove_service = FaqModule::RemoveService.new({ :id => faq.id })
-
-        response = remove_service.call
-
-        expect(response).to match 'Deletado com sucesso'
-      end
-
-      it 'remove faq from the database' do
-        remove_service = FaqModule::RemoveService.new({ :id => faq.id })
-
-        expect(Faq.all.count).to eq(1)
-
-        response = remove_service.call
-
-        expect(Faq.all.count).to eq(0)
-      end
+      expect(response).to match("Deletado com sucesso")
     end
 
-    context 'with invalid ID' do
-      it 'receive error message' do
-        remove_service = FaqModule::RemoveService.new({ :id => rand(1..100) })
+    it "With invalid ID, receive error message" do
+      @removeService = FaqModule::RemoveService.new({"id" => rand(1..9999)})
+      response = @removeService.call()
 
-        response = remove_service.call
+      expect(response).to match("Questão inválida, verifique o Id")
+    end
 
-        expect(response).to match 'Questão inválida, verifique o Id'
-      end
+    it "With valid ID, remove Faq from database" do
+      faq = create(:faq, company: @company)
+      @removeService = FaqModule::RemoveService.new({"id" => faq.id})
+
+      expect(Faq.all.count).to eq(1)
+      response = @removeService.call()
+      expect(Faq.all.count).to eq(0)
     end
   end
 end
